@@ -1,5 +1,11 @@
-Tests below tests
 
+netperf.sh
+
+    Usage: netperf.sh <server>
+       server        machine running ttcpserver
+
+when run and if netserver is running on the <server> machine will run 
+the following tests
 
 * 8K send  (what is typical latency for an oracle block transfer)
 * 128K send  (throughout test)
@@ -39,3 +45,36 @@ columns
 * p99 - 99 percentile latency
 * <100u , ... ,  >1s - latency buckets, ie histogram of latency
 
+to get all the output netclient needs to have the histogram option.
+
+
+On Open Solaris I did the following
+
+    vi ./src/netlib.c
+    changed
+             879a880,881
+    > void stop_timer();
+
+    ./configure  --enable-demo=yes --enable-histogram=yes --enable-intervals=yes  --enable-omni=yes   
+
+    make
+
+I was also missing the math headers, so got them and put them a local directory
+
+     export CPPFLAGS=-I/khailey/include
+
+     ./configure  --enable-demo=yes --enable-histogram=yes --enable-intervals=yes  --enable-omni=yes   --includedir=/khailey/include
+
+     make
+     
+Documentation
+
+      http://www.netperf.org/netperf/training/Netperf.html
+
+links
+
+     http://docstore.mik.ua/orelly/networking_2ndEd/tshoot/ch04_02.htm 
+     http://blogs.oracle.com/paulie/entry/testing_network_performance_in_solaris
+     http://www.netperf.org/netperf/training/Netperf.html
+     http://www.netperf.org/svn/netperf2/tags/netperf-2.5.0/doc/netperf.html
+     
